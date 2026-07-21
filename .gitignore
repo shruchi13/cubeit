@@ -1,0 +1,43 @@
+# caches
+__pycache__
+.pytest-caches
+
+# Virtual enviornment 
+venv
+
+# macOS system files
+.DS_Store
+
+# Python environment & cache
+venv/
+env/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Test reports, screenshots, videos
+reports/
+video/
+*.jpg
+*.png
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Ignore loose python scripts in root (if you only want tests/ tracked)
+/*.py
+
+# Cache, traces, and reports
+*.json
+*.zip
+*.log
+reports/
+.pytest_cache/
+venv/
+__pycache__/
+
+# Root python scripts (if you only want tests/ tracked)
+/*.py
+!tests/
