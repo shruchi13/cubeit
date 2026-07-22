@@ -1,4 +1,5 @@
 import os
+import time
 import pytest
 from conftest import GITHUB_USER, GITHUB_REPO
 from playwright.sync_api import APIRequestContext, Page
@@ -26,7 +27,7 @@ def test_github_issue_lifecycle(api_context: APIRequestContext, page: Page):
         data= issue_data
 
     )
-    assert post_reponse.ok, f"Failed to create issue:{post_response.text()}"
+    assert post_reponse.ok, f"Failed to create issue:{post_reponse.text()}"
     
     # 2. Verify issue exists in list via API 
     matching_issue = []
@@ -37,18 +38,12 @@ def test_github_issue_lifecycle(api_context: APIRequestContext, page: Page):
         if all_issues.ok:
             matching_issue = [
                 issue for issue in all_issues.json()
-                if issue.get("title") == target_title
+                if issue.get("title") == [BUG] That went wrong"
             ]
             if matching_issue:
                 break
 
     assert all_issues.ok
-
-    matching_issue =[
-        issue 
-        for issue in all_issues.json() 
-        if issue["title"]=="[BUG] That went wrong"
-    ]
     
     assert len(matching_issue)> 0, "No issue found with title '[BUG] that went wrong'"
 
