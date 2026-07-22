@@ -4,8 +4,9 @@ from playwright.sync_api import Playwright, APIRequestContext
 # Fetch credentials from GitHub Secrets / Environment Variables
 # If running locally without env vars, fallback to default values
 GITHUB_ACCESS_TOKEN = os.getenv("GH_TOKEN", "")
-GITHUB_REPO = os.getenv("GITHUB_REPO", "test-repo-cubeit")
+GITHUB_REPO = os.getenv("GITHUB_REPO", "temp-test-repo")
 GITHUB_USERNAME = os.getenv("GITHUB_USERNAME", "shruchi13")
+GITHUB_USERNAME = GITHUB_USER
 
 
 @pytest.fixture(scope="session")

@@ -1,5 +1,5 @@
 import os
-
+from conftest import GITHUB_USER, GITHUB_REPO
 # Fetch credentials from environment variables (GitHub Actions), 
 # or fallback to local defaults if running locally
 USERNAME = os.getenv("APP_USERNAME", "local_fallback_user")
