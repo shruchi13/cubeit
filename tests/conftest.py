@@ -1,5 +1,9 @@
-import pytest
-from creds import *
+import os
+
+# Fetch credentials from GitHub Secrets / Environment Variables
+# If running locally without env vars, fallback to default values
+USERNAME = os.getenv("APP_USERNAME", "local_user")
+PASSWORD = os.getenv("APP_PASSWORD", "local_password")
 from playwright.sync_api import Playwright, APIRequestContext
 
 @pytest.fixture(scope="session")
