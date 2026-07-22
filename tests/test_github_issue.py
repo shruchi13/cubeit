@@ -26,11 +26,21 @@ def test_github_issue_lifecycle(api_context: APIRequestContext, page: Page):
         data= issue_data
 
     )
-    assert post_reponse.ok
+    assert post_reponse.ok, f"Failed to create issue:{post_response.text()}"
+    
     # 2. Verify issue exists in list via API 
-    all_issues =api_context.get(
-        f"repos/{GITHUB_USER}/{GITHUB_REPO}/issues"
-    )
+    matching_issue = []
+    max_tries = 5
+    for attempt in range(max_tries):
+        time.sleep(1)
+        all_issues =api_context.get(f"repos/{GITHUB_USER}/{GITHUB_REPO}/issues")
+        if all_issues.ok:
+            matching_issue = [
+                issue for issue in all_issues.json()
+                if issue.get("title") == target_title
+            ]
+            if matching_issue:
+                break
 
     assert all_issues.ok
 
