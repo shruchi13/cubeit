@@ -3,9 +3,11 @@ import os
 from playwright.sync_api import Playwright, APIRequestContext
 # Fetch credentials from GitHub Secrets / Environment Variables
 # If running locally without env vars, fallback to default values
+# Fetch variable from enviornment or set fallback
 GITHUB_ACCESS_TOKEN = os.getenv("GH_TOKEN", "")
 GITHUB_REPO = os.getenv("GITHUB_REPO", "temp-test-repo")
-GITHUB_USERNAME = os.getenv("GITHUB_USERNAME", "shruchi13")
+# Define GITHUB_USER first then set alias GITHUB_USERNAME
+GITHUB_USER = os.getenv("GITHUB_USER", "shruchi13")
 GITHUB_USERNAME = GITHUB_USER
 
 
