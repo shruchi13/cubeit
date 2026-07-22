@@ -38,7 +38,7 @@ def test_github_issue_lifecycle(api_context: APIRequestContext, page: Page):
         if all_issues.ok:
             matching_issue = [
                 issue for issue in all_issues.json()
-                if issue.get("title") == [BUG] That went wrong"
+                if issue.get("title") == "[BUG] That went wrong"
             ]
             if matching_issue:
                 break
