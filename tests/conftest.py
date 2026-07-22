@@ -1,3 +1,4 @@
+import pytest
 import os
 
 # Fetch credentials from GitHub Secrets / Environment Variables
