@@ -1,5 +1,7 @@
 import os
+import pytest
 from conftest import GITHUB_USER, GITHUB_REPO
+from playwright.sync_api import APIRequestContext, Page
 # Fetch credentials from environment variables (GitHub Actions), 
 # or fallback to local defaults if running locally
 USERNAME = os.getenv("APP_USERNAME", "local_fallback_user")
@@ -10,9 +12,10 @@ except ImportError:
     # Fallback dummy environment credentials for CI/CD
     USERNAME = "test_user"
     PASSWORD = "test_password"
-from playwright.sync_api import APIRequestContext, Page
 
-def test_create_issue(api_context: APIRequestContext):
+
+def test_github_issue_lifecycle(api_context: APIRequestContext, page: Page):
+    # 1. Create the issue via API
     issue_data = {
         "title": "[BUG] That went wrong",
         "body": "When doing this , that failed"
@@ -23,19 +26,8 @@ def test_create_issue(api_context: APIRequestContext):
         data= issue_data
 
     )
-
     assert post_reponse.ok
-
-def test_take_issues_screenshot(page: Page):
-    page.goto(f"https://github.com/{GITHUB_USER}/{GITHUB_REPO}/issues")
-    # Reload page to bypass client side caching 
-    page.reload()
-    # Wait for the issue list element or title to actually load in the UI 
-    page.get_by_text("[BUG] That went wrong").wait_for()
-
-    page.screenshot(path="github-issues-page.jpg", full_page=True)
-
-def test_new_issue_in_repo(api_context: APIRequestContext):
+    # 2. Verify issue exists in list via API 
     all_issues =api_context.get(
         f"repos/{GITHUB_USER}/{GITHUB_REPO}/issues"
     )
@@ -53,3 +45,13 @@ def test_new_issue_in_repo(api_context: APIRequestContext):
     new_issue = matching_issue[0]
 
     assert new_issue["body"]=="When doing this , that failed"
+
+    # 3. Verify issue appear in UI 
+    page.goto(f"https://github.com/{GITHUB_USER}/{GITHUB_REPO}/issues")
+    # Reload page to bypass client side caching 
+    page.reload()
+    # Wait for the issue list element or title to actually load in the UI 
+    page.get_by_text("[BUG] That went wrong").wait_for(timeout =10000)
+    assert page.get_by_text("[BUG] That went wrong").is_visible()
+    page.screenshot(path="github-issues-page.jpg", full_page=True)
+
