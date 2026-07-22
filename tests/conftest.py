@@ -4,6 +4,8 @@ from playwright.sync_api import Playwright, APIRequestContext
 # Fetch credentials from GitHub Secrets / Environment Variables
 # If running locally without env vars, fallback to default values
 GITHUB_ACCESS_TOKEN = os.getenv("GH_TOKEN", "")
+GITHUB_REPO = os.getenv("GITHUB_REPO", "test-repo-cubeit")
+GITHUB_USERNAME = os.getenv("GITHUB_USERNAME", "shruchi13")
 
 
 @pytest.fixture(scope="session")
@@ -31,11 +33,10 @@ def create_test_repository(api_context: APIRequestContext):
 
     assert post_response.ok # post response is using ok properties 
 
-    yield
+    yield post_response
 
     # Delete the test repo 
-    delete_response = api_context.delete(
-        f"/repos/{GITHUB_USER}/{GITHUB_REPO}"
-    )
+    delete_response = api_context.delete(f"/repos/{GITHUB_USERNAME}/{GITHUB_REPO}")
+
 
     assert delete_response.ok

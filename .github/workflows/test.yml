@@ -28,6 +28,7 @@ jobs:
       - name: Run tests
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO: "temp-test-repo"
         run: |
           cd cubeit
           python -m http.server 8000 &
