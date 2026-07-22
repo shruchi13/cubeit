@@ -41,3 +41,5 @@ __pycache__/
 # Root python scripts (if you only want tests/ tracked)
 /*.py
 !tests/
+
+tests/creds.py

@@ -1,4 +1,15 @@
-from creds import *
+import os
+
+# Fetch credentials from environment variables (GitHub Actions), 
+# or fallback to local defaults if running locally
+USERNAME = os.getenv("APP_USERNAME", "local_fallback_user")
+PASSWORD = os.getenv("APP_PASSWORD", "local_fallback_pass")
+try:
+    from creds import *
+except ImportError:
+    # Fallback dummy environment credentials for CI/CD
+    USERNAME = "test_user"
+    PASSWORD = "test_password"
 from playwright.sync_api import APIRequestContext, Page
 
 def test_create_issue(api_context: APIRequestContext):

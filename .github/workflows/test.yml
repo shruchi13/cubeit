@@ -26,6 +26,9 @@ jobs:
           playwright install --with-deps
 
       - name: Run tests
+        env:
+           APP_USERNAME: ${{ secrets.APP_USERNAME }}
+           APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
         run: |
           cd cubeit
           python -m http.server 8000 &
